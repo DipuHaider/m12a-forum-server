@@ -9,8 +9,8 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      "https://stunning-cassata-c2b035.netlify.app",
-      "https://65530682e4bfd91903c02156--stunning-cassata-c2b035.netlify.app",
+      //   "https://stunning-cassata-c2b035.netlify.app",
+      //   "https://65530682e4bfd91903c02156--stunning-cassata-c2b035.netlify.app",
     ],
     credentials: true,
   })
@@ -30,7 +30,20 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
+    //await client.connect();
+
+    const userCollection = client.db("forumDB").collection("user");
+
+    //user related apis
+
+    //create user
+    app.post("/user", async (req, res) => {
+      const newUser = req.body;
+      console.log(newUser);
+      const result = await userCollection.insertOne(newUser);
+      res.send(result);
+    });
+
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log(
@@ -38,7 +51,7 @@ async function run() {
     );
   } finally {
     // Ensures that the client will close when you finish/error
-    await client.close();
+    //await client.close();
   }
 }
 run().catch(console.dir);
