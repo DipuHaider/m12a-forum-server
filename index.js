@@ -33,6 +33,24 @@ async function run() {
     //await client.connect();
 
     const userCollection = client.db("forumDB").collection("user");
+    const postCollection = client.db("forumDB").collection("post");
+
+    //post related apis
+
+    //create post
+    app.post("/post", async (req, res) => {
+      const newPost = req.body;
+      console.log(newPost);
+      const result = await postCollection.insertOne(newPost);
+      res.send(result);
+    });
+
+    //Read post
+    app.get("/post", async (req, res) => {
+      const cursor = postCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    });
 
     //user related apis
 
@@ -41,6 +59,12 @@ async function run() {
       const newUser = req.body;
       console.log(newUser);
       const result = await userCollection.insertOne(newUser);
+      res.send(result);
+    });
+
+    app.get("/user", async (req, res) => {
+      const cursor = userCollection.find();
+      const result = await cursor.toArray();
       res.send(result);
     });
 
