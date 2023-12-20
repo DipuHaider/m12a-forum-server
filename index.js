@@ -34,6 +34,29 @@ async function run() {
 
     const userCollection = client.db("forumDB").collection("user");
     const postCollection = client.db("forumDB").collection("post");
+    const announcementCollection = client
+      .db("forumDB")
+      .collection("announcement");
+
+    //announcement related apis
+
+    //create announcement
+    app.post("/announcement", async (req, res) => {
+      const newAnnouncement = req.body;
+      console.log(newAnnouncement);
+      const result = await announcementCollection.insertOne(newAnnouncement);
+      res.send(result);
+    });
+
+    //Read announcement
+    app.get("/announcement", async (req, res) => {
+      // const cursor = announcementCollection.find();
+      const cursor = announcementCollection
+        .find()
+        .sort({ announcement_time: -1 });
+      const result = await cursor.toArray();
+      res.send(result);
+    });
 
     //post related apis
 
