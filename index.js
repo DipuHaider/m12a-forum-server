@@ -47,8 +47,16 @@ async function run() {
 
     //Read post
     app.get("/post", async (req, res) => {
-      const cursor = postCollection.find();
+      const cursor = postCollection.find().sort({ post_time: -1 });
       const result = await cursor.toArray();
+      res.send(result);
+    });
+
+    //Read single post
+    app.get("/post/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await postCollection.findOne(query);
       res.send(result);
     });
 
