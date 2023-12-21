@@ -93,9 +93,27 @@ async function run() {
       res.send(result);
     });
 
+    //read user
     app.get("/user", async (req, res) => {
       const cursor = userCollection.find();
       const result = await cursor.toArray();
+      res.send(result);
+    });
+
+    //Update user
+    app.put("/user/:id", async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: new ObjectId(id) };
+      const options = { upsert: true };
+      const updatedUser = req.body;
+
+      const user = {
+        $set: {
+          isadmin: updatedUser.isadmin,
+        },
+      };
+
+      const result = await userCollection.updateOne(filter, user, options);
       res.send(result);
     });
 
