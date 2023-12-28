@@ -70,8 +70,16 @@ async function run() {
 
     //Read post
     app.get("/post", async (req, res) => {
-      const cursor = postCollection.find().sort({ post_time: -1 });
-      const result = await cursor.toArray();
+      const page = parseInt(req.query.page);
+      const size = parseInt(req.query.size);
+      // console.log("pagination", page, size);
+
+      const result = await postCollection
+        .find()
+        .skip(page * size)
+        .limit(size)
+        .sort({ post_time: -1 })
+        .toArray();
       res.send(result);
     });
 
