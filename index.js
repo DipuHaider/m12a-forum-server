@@ -68,20 +68,28 @@ async function run() {
       res.send(result);
     });
 
-    //Read post
+    //Read post with pagination and search
     app.get("/post", async (req, res) => {
+      let queryObj = {};
       const page = parseInt(req.query.page);
       const size = parseInt(req.query.size);
+      const post_tag = req.query.post_tag;
       // console.log("pagination", page, size);
 
+      if (post_tag) {
+        queryObj.post_tag = post_tag;
+      }
+
       const result = await postCollection
-        .find()
+        .find(queryObj)
         .skip(page * size)
         .limit(size)
         .sort({ post_time: -1 })
         .toArray();
       res.send(result);
     });
+
+    //Search post milestone 11 mastering CRUD with jwt day3 level 2 mentor part 1
 
     //Read single post
     app.get("/post/:id", async (req, res) => {
