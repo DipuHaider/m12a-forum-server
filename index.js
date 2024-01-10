@@ -99,6 +99,13 @@ async function run() {
       res.send(result);
     });
 
+    //Read All post
+    app.get("/allposts", async (req, res) => {
+      const cursor = postCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+
     //post count for pagination
     app.get("/postsCount", async (req, res) => {
       const count = await postCollection.estimatedDocumentCount();
