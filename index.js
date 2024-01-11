@@ -79,6 +79,9 @@ async function run() {
       if (post_tag) {
         queryObj.post_tag = post_tag;
       }
+      if (post_tag === "all") {
+        queryObj = {};
+      }
 
       const result = await postCollection
         .find(queryObj)
