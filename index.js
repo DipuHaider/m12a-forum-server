@@ -115,6 +115,68 @@ async function run() {
       res.send({ count });
     });
 
+    //Upvote And Downvote API
+
+    // Update Upvote
+    app.put("/post/:id", async (req, res) => {
+      try {
+        const id = req.params.id;
+        const filter = { _id: new ObjectId(id) };
+        const options = { upsert: true };
+        const updatedUpVote = {
+          upvote: req.body.upvote,
+        };
+        console.log("updatedUpVote", updatedUpVote);
+
+        const upvote = {
+          $set: updatedUpVote,
+        };
+
+        const result = await postCollection.updateOne(filter, upvote, options);
+
+        if (result.modifiedCount > 0) {
+          res.json({ modifiedCount: result.modifiedCount });
+        } else {
+          res.status(404).json({ error: "Already upvoted" });
+        }
+      } catch (error) {
+        console.error("Error updating upvote:", error);
+        res.status(500).send("Internal Server Error");
+      }
+    });
+
+    // Update DownVote
+    app.put("/post/:id", async (req, res) => {
+      try {
+        const id = req.params.id;
+        const filter = { _id: new ObjectId(id) };
+        const options = { upsert: true };
+        const updatedDownVote = {
+          downvote: req.body.downvote,
+        };
+        console.log("updatedDownVote", updatedDownVote);
+
+        const downvote = {
+          $set: updatedDownVote,
+        };
+
+        const result = await postCollection.updateOne(
+          filter,
+          downvote,
+          options
+        );
+
+        if (result.modifiedCount > 0) {
+          res.json({ modifiedCount: result.modifiedCount });
+        } else {
+          res.status(404).json({ error: "Already downvoted" });
+        }
+      } catch (error) {
+        console.error("Error updating downvote:", error);
+        res.status(500).send("Internal Server Error");
+      }
+    });
+
     //user related apis
 
     //create user
