@@ -37,6 +37,24 @@ async function run() {
     const announcementCollection = client
       .db("forumDB")
       .collection("announcement");
+    const commentCollection = client.db("forumDB").collection("comment");
+
+    //Comments API
+
+    //Create Comments
+    app.post("/comment", async (req, res) => {
+      const newComment = req.body;
+      console.log(newComment);
+      const result = await commentCollection.insertOne(newComment);
+      res.send(result);
+    });
+
+    //Read Comments
+    app.get("/comment", async (req, res) => {
+      const cursor = commentCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    });
 
     //announcement related apis
 
@@ -118,7 +136,7 @@ async function run() {
     //Upvote And Downvote API
 
     // Update Upvote
-    app.put("/post/:id", async (req, res) => {
+    app.put("/post/upvote/:id", async (req, res) => {
       try {
         const id = req.params.id;
         const filter = { _id: new ObjectId(id) };
@@ -146,7 +164,7 @@ async function run() {
     });
 
     // Update DownVote
-    app.put("/post/:id", async (req, res) => {
+    app.put("/post/downvote/:id", async (req, res) => {
       try {
         const id = req.params.id;
         const filter = { _id: new ObjectId(id) };
