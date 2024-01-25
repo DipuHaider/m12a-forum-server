@@ -9,8 +9,8 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      //   "https://stunning-cassata-c2b035.netlify.app",
-      //   "https://65530682e4bfd91903c02156--stunning-cassata-c2b035.netlify.app",
+      "https://profound-liger-f9751d.netlify.app",
+      "https://65b204722b9cad30fbbd1124--profound-liger-f9751d.netlify.app",
     ],
     credentials: true,
   })
