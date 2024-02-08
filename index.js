@@ -10,7 +10,7 @@ app.use(
     origin: [
       "http://localhost:5173",
       "https://profound-liger-f9751d.netlify.app",
-      "https://65b204722b9cad30fbbd1124--profound-liger-f9751d.netlify.app",
+      "https://65b9bddacb39f57b87497b5b--profound-liger-f9751d.netlify.app",
     ],
     credentials: true,
   })
